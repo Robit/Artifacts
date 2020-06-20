@@ -3,6 +3,7 @@ package io.github.rm2023.Artifacts;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -14,6 +15,7 @@ import org.bukkit.entity.Player;
 import io.github.rm2023.Artifacts.RewardBases.Reward;
 
 public class DataManager {
+    private static ArrayList<DataManager> dataManagers = new ArrayList<DataManager>();
     private YamlConfiguration data;
     private File file;
     private ExecutorService loadExecutor = Executors.newSingleThreadExecutor();
@@ -33,6 +35,7 @@ public class DataManager {
             }
         });
         loadExecutor.shutdown();
+        dataManagers.add(this);
     }
 
     public YamlConfiguration getData() {
@@ -61,15 +64,19 @@ public class DataManager {
     }
 
     public static DataManager getRewardData(Reward reward) {
-        // TODO - system that either loads a new DataManager for a reward if none exists
-        // yet OR returns an already loaded datamanager
-        return null;
+        return getFileData(new File(Main.plugin.getDataFolder(), "data/reward/" + reward.getID() + ".yml"));
     }
 
     public static DataManager getPlayerData(Player p) {
-        // TODO - system that either loads a new DataManager for a reward if none exists
-        // yet OR returns an already loaded datamanager
-        return null;
+        return getFileData(new File(Main.plugin.getDataFolder(), "data/player/" + p.getUniqueId().toString() + ".yml"));
     }
 
+    public static DataManager getFileData(File file) {
+        for (DataManager manager : dataManagers) {
+            if (manager.file.equals(file)) {
+                return manager;
+            }
+        }
+        return new DataManager(file);
+    }
 }

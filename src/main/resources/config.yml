@@ -1,0 +1,7 @@
+enabledWorlds:
+  - world
+  - world_nether
+  - world_the_end
+
+disabledReward:
+  - disabledRewardHere
