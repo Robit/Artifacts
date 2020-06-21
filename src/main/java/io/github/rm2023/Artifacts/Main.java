@@ -62,6 +62,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         rewardManager = new RewardManager(rewardMap);
+        getServer().getPluginManager().registerEvents(rewardManager, this);
     }
 }
 

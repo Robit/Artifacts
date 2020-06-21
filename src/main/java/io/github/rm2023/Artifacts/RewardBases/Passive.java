@@ -8,12 +8,12 @@ import org.bukkit.entity.Player;
 public abstract class Passive extends Reward {
     public ArrayList<Player> enabledPlayers = new ArrayList<Player>();
 
-    public void enableFor(Player p) {
-        enabledPlayers.add(p);
+    public void enableFor(Player player) {
+        enabledPlayers.add(player);
     }
 
-    public void disableFor(Player p) {
-        enabledPlayers.remove(p);
+    public void disableFor(Player player) {
+        enabledPlayers.remove(player);
     }
 
     public List<Passive> getIncompatiblePassives() {
