@@ -43,7 +43,7 @@ public abstract class Reward implements Listener {
     }
 
     public void giveReward(Player player) {
-        // TODO logging
+        Main.plugin.getLogger().info("Artifact " + getID() + " granted to " + player.getName());
     }
 
     public DataManager getData() {

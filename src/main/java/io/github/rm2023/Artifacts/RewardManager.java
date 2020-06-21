@@ -23,7 +23,7 @@ public class RewardManager implements Listener {
         rewardMap.values().forEach((reward) -> reward.enable());
     }
 
-    public String giveReward(Reward reward, Player player, boolean force, String... properties) {
+    public String giveReward(Player player, Reward reward, boolean force, String... properties) {
         reward.giveReward(player);
         if (reward instanceof Passive) {
             return addPassive(player, (Passive) reward, force);
@@ -75,8 +75,6 @@ public class RewardManager implements Listener {
         if (section.getBoolean("enabled")) {
             return ChatColor.RED + "" + ChatColor.BOLD + "That passive is already enabled!";
         }
-        // Disable any enabled passives that conflict with this one. If any of them fail
-        // to disable due to sticky, fail.
         if (listEnabledPassives(player).stream().filter(passive.getIncompatiblePassives()::contains).map((p) -> disablePassive(player, p, force)).anyMatch((message) -> message.contains("sticky"))) {
             return ChatColor.RED + "" + ChatColor.BOLD + "An error occured while trying to disable rewards that are incompatible with this one because the incompatible reward is sticky.";
         }

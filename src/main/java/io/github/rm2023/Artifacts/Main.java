@@ -9,9 +9,12 @@ import java.util.stream.Collectors;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 
+import io.github.rm2023.Artifacts.Commands.ArtifactAdminExecutor;
+import io.github.rm2023.Artifacts.Commands.PassivesExecutor;
 import io.github.rm2023.Artifacts.RewardBases.Reward;
 
 public class Main extends JavaPlugin {
@@ -24,7 +27,6 @@ public class Main extends JavaPlugin {
     @Override
     public void onLoad() {
         plugin = this;
-        
         File configFile = new File(this.getDataFolder(), "config.yml");
         if (!configFile.exists()) {
             configFile.getParentFile().mkdirs();
@@ -44,10 +46,10 @@ public class Main extends JavaPlugin {
             try {
                 return rewardClass.newInstance();
             } catch (InstantiationException e) {
-                this.getLogger().severe("Failed to intentiate artifact " + rewardClass.getName());
+                this.getLogger().severe("Failed to intantiate artifact " + rewardClass.getName());
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
-                this.getLogger().severe("Failed to intentiate artifact " + rewardClass.getName());
+                this.getLogger().severe("Failed to intantiate artifact " + rewardClass.getName());
                 e.printStackTrace();
             }
             return null;
@@ -62,7 +64,14 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         rewardManager = new RewardManager(rewardMap);
+
         getServer().getPluginManager().registerEvents(rewardManager, this);
+
+        getCommand("passives").setExecutor(new PassivesExecutor());
+        getCommand("artifactAdmin").setExecutor(new ArtifactAdminExecutor());
+
+        getServer().getPluginManager().addPermission(new Permission("artifacts.user", "The ability to use artifacts and manage your own passives"));
+        getServer().getPluginManager().addPermission(new Permission("artifacts.admin", "Permission to use /artifactAdmin"));
     }
 }
 

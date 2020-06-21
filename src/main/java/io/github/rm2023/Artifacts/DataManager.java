@@ -78,4 +78,19 @@ public class DataManager {
     public static DataManager getFileData(String file) {
         return dataManagers.containsKey(file) ? dataManagers.get(file) : new DataManager(file);
     }
+
+    public static void reload() {
+        dataManagers.values().forEach((manager) -> manager.saveExecutor.shutdown());
+        dataManagers.values().forEach((manager) -> {
+            try {
+                manager.saveExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        dataManagers.clear();
+        for (Player player : Main.plugin.getServer().getOnlinePlayers()) {
+            DataManager.getPlayerData(player);
+        }
+    }
 }

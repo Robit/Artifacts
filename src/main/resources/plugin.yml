@@ -3,5 +3,7 @@ main: io.github.rm2023.Artifacts.Main
 version: 1.0
 api-version: "1.15"
 commands:
-   artifacts:
-      description: Root command for artifacts plugin
+   artifactAdmin:
+      description: Command for managing artifacts as an admin
+   passives:
+      description: Command for managing passives as a player
