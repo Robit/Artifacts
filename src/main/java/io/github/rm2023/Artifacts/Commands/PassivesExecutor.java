@@ -23,24 +23,29 @@ public class PassivesExecutor implements TabExecutor {
         if (!(sender.hasPermission("artifacts.user"))) {
             return null;
         }
-        if (args.length == 0) {
+        if (args.length == 1) {
             return new ArrayList<String>() {
                 {
                     add("enable");
                     add("disable");
+                    add("toggle");
+                    add("list");
                     add("info");
                 }
-            };
+            }.stream().filter((entry) -> entry.startsWith(args[0])).collect(Collectors.toList());
         }
-        if (args.length == 1) {
+        if (args.length == 2 && !args[0].equals("list")) {
             if(args[0].equals("enable")) {
-                return Main.plugin.rewardManager.listDisabledPassives((Player) sender).stream().map((passive) -> passive.getID()).collect(Collectors.toList());
+                return Main.plugin.rewardManager.listDisabledPassives((Player) sender).stream().map((passive) -> passive.getID()).filter((entry) -> entry.startsWith(args[1])).collect(Collectors.toList());
             }
             if(args[0].equals("disable")) {
-                return Main.plugin.rewardManager.listEnabledPassives((Player) sender).stream().map((passive) -> passive.getID()).collect(Collectors.toList());
+                return Main.plugin.rewardManager.listEnabledPassives((Player) sender).stream().map((passive) -> passive.getID()).filter((entry) -> entry.startsWith(args[1])).collect(Collectors.toList());
+            }
+            if (args[0].equals("toggle")) {
+                return Main.plugin.rewardManager.listPassives((Player) sender).stream().map((passive) -> passive.getID()).filter((entry) -> entry.startsWith(args[1])).collect(Collectors.toList());
             }
             if(args[0].equals("info")) {
-                return Main.plugin.rewardManager.listPassives((Player) sender).stream().map((passive) -> passive.getID()).collect(Collectors.toList());
+                return Main.plugin.rewardManager.listPassives((Player) sender).stream().map((passive) -> passive.getID()).filter((entry) -> entry.startsWith(args[1])).collect(Collectors.toList());
             }
         }
         return null;
@@ -83,6 +88,25 @@ public class PassivesExecutor implements TabExecutor {
             }
             sender.sendMessage(Main.plugin.rewardManager.disablePassive((Player) sender, (Passive) Main.plugin.rewardMap.get(args[1]), false));
             return true;
+        }
+        if (args[0].equals("toggle")) {
+            if (args.length != 2) {
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "/passives toggle <PASSIVE_ID>");
+                return false;
+            }
+            if (!Main.plugin.rewardMap.containsKey(args[1])) {
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "This passive ID does not exist!");
+                return false;
+            }
+            sender.sendMessage(Main.plugin.rewardManager.togglePassive((Player) sender, (Passive) Main.plugin.rewardMap.get(args[1]), false));
+            return true;
+        }
+        if (args[0].equals("list")) {
+            if (args.length != 1) {
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "/passives list");
+                return false;
+            }
+            Main.plugin.rewardManager.listPassives((Player) sender).forEach((reward) -> sender.sendMessage(ChatColor.BLUE + "" + ChatColor.BOLD + reward.getName() + " - " + ChatColor.RESET + "" + ChatColor.BLUE + reward.getDescription()));
         }
         if (args[0].equals("info")) {
             if (args.length != 2) {

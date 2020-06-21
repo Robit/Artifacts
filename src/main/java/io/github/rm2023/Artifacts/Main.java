@@ -2,6 +2,7 @@ package io.github.rm2023.Artifacts;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -23,6 +24,7 @@ public class Main extends JavaPlugin {
     public YamlConfiguration config;
     public RewardManager rewardManager;
     public Map<String, Reward> rewardMap;
+    public List<String> enabledWorlds;
 
     @Override
     public void onLoad() {
@@ -42,7 +44,7 @@ public class Main extends JavaPlugin {
             return;
         }
         Set<Class<? extends Reward>> rewardClasses = new Reflections("io.github.rm2023.Artifacts.Rewards").getSubTypesOf(Reward.class);
-        rewardMap = rewardClasses.stream().map((rewardClass) -> {
+        rewardMap = rewardClasses.stream().filter((rewardClass) -> rewardClass.getPackage().getName().equals("io.github.rm2023.Artifacts.Rewards")).map((rewardClass) -> {
             try {
                 return rewardClass.newInstance();
             } catch (InstantiationException e) {
@@ -59,6 +61,7 @@ public class Main extends JavaPlugin {
                 getLogger().severe("Unable to disable " + disabledArtifact + ". Reward not found.");
             }
         });
+        enabledWorlds = config.getStringList("enabledWorlds");
     }
 
     @Override
@@ -72,6 +75,23 @@ public class Main extends JavaPlugin {
 
         getServer().getPluginManager().addPermission(new Permission("artifacts.user", "The ability to use artifacts and manage your own passives"));
         getServer().getPluginManager().addPermission(new Permission("artifacts.admin", "Permission to use /artifactAdmin"));
+    }
+
+    public void onReload() {
+        try {
+            config.load(new File(this.getDataFolder(), "config.yml"));
+        } catch (IOException | InvalidConfigurationException e) {
+            this.getLogger().log(Level.SEVERE, "Error loading config information!");
+            e.printStackTrace();
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+        rewardManager.reload();
+    }
+
+    @Override
+    public void onDisable() {
+        DataManager.saveAll();
     }
 }
 

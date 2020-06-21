@@ -26,13 +26,11 @@ public class DataManager {
         this.file = new File(Main.plugin.getDataFolder(), file);
         loadExecutor.execute(() -> {
             try {
-                if (!this.file.exists()) {
-                    this.file.getParentFile().mkdirs();
-                    this.file.createNewFile();
-                    data.load(file);
+                this.file.getParentFile().mkdirs();
+                this.file.createNewFile();
+                data.load(this.file);
+                if (!data.isConfigurationSection("passives")) {
                     data.createSection("passives");
-                } else {
-                    data.load(file);
                 }
             } catch (IOException | InvalidConfigurationException e) {
                 e.printStackTrace();
@@ -65,6 +63,10 @@ public class DataManager {
                 e.printStackTrace();
             }
         });
+    }
+
+    public static void saveAll() {
+        dataManagers.values().forEach((manager) -> manager.save());
     }
 
     public static DataManager getRewardData(Reward reward) {

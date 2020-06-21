@@ -1,5 +1,6 @@
 package io.github.rm2023.Artifacts;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -8,6 +9,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -26,7 +28,7 @@ public class RewardManager implements Listener {
     public String giveReward(Player player, Reward reward, boolean force, String... properties) {
         reward.giveReward(player);
         if (reward instanceof Passive) {
-            return addPassive(player, (Passive) reward, force);
+            return addPassive(player, (Passive) reward, force, properties);
         }
         return ChatColor.GREEN + "" + ChatColor.BOLD + "Reward granted: " + reward.getName() + " -\n " + reward.getDescription();
     }
@@ -45,10 +47,10 @@ public class RewardManager implements Listener {
             }
         }
         ConfigurationSection newPassive = getPassiveSection(player).createSection(passive.getID());
-        enablePassive(player, passive, true);
-        newPassive.set("properties", properties);
-        DataManager.getPlayerData(player).save();
-        return ChatColor.GREEN + "" + ChatColor.BOLD + "Reward granted: " + passive.getName() + " -\n " + passive.getDescription() + "\n You can manage this reward by using /passives";
+        newPassive.set("enabled", false);
+        newPassive.set("properties", Arrays.asList(properties));
+        enablePassive(player, passive, force);
+        return ChatColor.GREEN + "" + ChatColor.BOLD + "Reward granted: " + passive.getName() + " - " + passive.getDescription() + " You can manage this reward by using /passives";
     }
 
     public String removePassive(Player player, Passive passive, boolean force) {
@@ -119,7 +121,7 @@ public class RewardManager implements Listener {
     }
 
     private ConfigurationSection getPassiveSection(Player player, Passive passive) {
-        return DataManager.getPlayerData(player).getData().getConfigurationSection("passives/" + passive.getID());
+        return DataManager.getPlayerData(player).getData().getConfigurationSection("passives").getConfigurationSection(passive.getID());
     }
 
     public List<Passive> listPassives(Player player) {
@@ -134,6 +136,12 @@ public class RewardManager implements Listener {
         return getPassiveSection(player).getKeys(false).stream().map((key) -> (Passive) rewardMap.get(key)).filter((p) -> !isEnabled(p, player)).collect(Collectors.toList());
     }
 
+    public void reload() {
+        Main.plugin.getServer().getOnlinePlayers().forEach((player) -> listEnabledPassives(player).forEach((passive) -> passive.disableFor(player)));
+        DataManager.reload();
+        Main.plugin.getServer().getOnlinePlayers().forEach((player) -> listEnabledPassives(player).forEach((passive) -> passive.enableFor(player)));
+    }
+
     @EventHandler
     public void loadPlayerOnLogin(PlayerLoginEvent event) {
         DataManager.getPlayerData(event.getPlayer());
@@ -143,5 +151,10 @@ public class RewardManager implements Listener {
     @EventHandler
     public void unloadPlayerOnLogout(PlayerQuitEvent event) {
         listEnabledPassives(event.getPlayer()).forEach((passive) -> passive.disableFor(event.getPlayer()));
+    }
+
+    @EventHandler
+    public void removePassivesOnDeath(PlayerDeathEvent event) {
+        listPassives(event.getEntity()).forEach((passive) -> removePassive(event.getEntity(), passive, false));
     }
 }
