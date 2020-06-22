@@ -20,7 +20,7 @@ public class Stealth extends Passive {
 
     @Override
     public String getDescription() {
-        return "Shift to go invisible.";
+        return "Shift to go invisible for 5 seconds.";
     }
 
     @Override
@@ -48,7 +48,7 @@ public class Stealth extends Passive {
             return;
         }
         if (event.isSneaking() && event.getPlayer().getPotionEffect(PotionEffectType.INVISIBILITY) == null) {
-            event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100, 1));
+            event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100, 0));
         }
     }
 }

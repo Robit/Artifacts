@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -11,6 +12,8 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.permissions.Permission;
+import org.bukkit.persistence.PersistentDataHolder;
+import org.bukkit.persistence.PersistentDataType;
 
 import de.themoep.inventorygui.GuiElement;
 import de.themoep.inventorygui.StaticGuiElement;
@@ -18,6 +21,8 @@ import io.github.rm2023.Artifacts.DataManager;
 import io.github.rm2023.Artifacts.Main;
 
 public abstract class Reward implements Listener, Comparable<Reward> {
+
+    public static final NamespacedKey KEY = new NamespacedKey(Main.plugin, "RewardData");
 
     DataManager data;
 
@@ -42,6 +47,10 @@ public abstract class Reward implements Listener, Comparable<Reward> {
                 return null;
             }
         }
+    }
+
+    public static String getCustomData(PersistentDataHolder holder) {
+        return holder == null ? "" : holder.getPersistentDataContainer().getOrDefault(KEY, PersistentDataType.STRING, "");
     }
 
     public void enable() {
