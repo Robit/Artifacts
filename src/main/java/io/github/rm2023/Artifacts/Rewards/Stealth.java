@@ -1,8 +1,11 @@
 package io.github.rm2023.Artifacts.Rewards;
 
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -21,8 +24,12 @@ public class Stealth extends Passive {
     }
 
     @Override
-    public Material getRepresentationMaterial() {
-        return Material.POTION;
+    public ItemStack getRepresentationStack() {
+        ItemStack potion = new ItemStack(Material.POTION);
+        PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
+        potionMeta.setColor(Color.PURPLE);
+        potion.setItemMeta(potionMeta);
+        return potion;
     }
 
     @Override

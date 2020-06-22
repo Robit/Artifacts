@@ -10,6 +10,7 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import io.github.rm2023.Artifacts.Main;
+import io.github.rm2023.Artifacts.PassiveManagementGUI;
 import io.github.rm2023.Artifacts.RewardBases.Passive;
 import net.md_5.bungee.api.ChatColor;
 
@@ -62,8 +63,8 @@ public class PassivesExecutor implements TabExecutor {
             return false;
         }
         if (args.length == 0) {
-            // TODO GUI!
-            return false;
+            new PassiveManagementGUI((Player) sender);
+            return true;
         }
         if (args[0].equals("enable")) {
             if (args.length != 2) {
