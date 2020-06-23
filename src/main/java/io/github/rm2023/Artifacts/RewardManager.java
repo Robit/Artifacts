@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import io.github.rm2023.Artifacts.RewardBases.Passive;
 import io.github.rm2023.Artifacts.RewardBases.Reward;
+import io.github.rm2023.Artifacts.RewardBases.Reward.Tier;
 import net.md_5.bungee.api.ChatColor;
 
 public class RewardManager implements Listener {
@@ -48,6 +49,11 @@ public class RewardManager implements Listener {
         }
         ConfigurationSection newPassive = getPassiveSection(player).createSection(passive.getID());
         newPassive.set("enabled", false);
+        if (passive.getTier() == Tier.CURSE && !Arrays.asList(properties).contains("sticky")) {
+            List<String> newProperties = Arrays.asList(properties);
+            newProperties.add("sticky");
+            properties = (String[]) newProperties.toArray();
+        }
         newPassive.set("properties", Arrays.asList(properties));
         enablePassive(player, passive, force);
         return ChatColor.GREEN + "" + ChatColor.BOLD + "Reward granted: " + passive.getName() + " - " + passive.getDescription() + " You can manage this reward by using /passives";

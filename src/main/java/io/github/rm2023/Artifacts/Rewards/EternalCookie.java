@@ -14,35 +14,6 @@ import io.github.rm2023.Artifacts.RewardBases.EternalFood;
 
 public class EternalCookie extends EternalFood {
 
-    @EventHandler
-    public void replenishFood(PlayerItemConsumeEvent event) {
-        if (getCustomData(event.getItem().getItemMeta()).equals("eternal")) {
-            if (event.getItem().getType().equals(Material.MILK_BUCKET)) {
-                Main.plugin.getServer().getScheduler().runTaskLater(Main.plugin, () -> {
-                    if (event.getPlayer().getInventory().removeItem(new ItemStack(Material.BUCKET)).isEmpty()) {
-                        event.getPlayer().getInventory().addItem(event.getItem());
-                    }
-                }, 1);
-            } else {
-                event.getPlayer().getInventory().addItem(event.getItem());
-            }
-        }
-    }
-
-    @EventHandler
-    public void dontCraftEvent(CraftItemEvent event) {
-        if (Arrays.stream(event.getInventory().getContents()).anyMatch(item -> getCustomData(item.getItemMeta()).contains("eternal"))) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void dontFeedEvent(PlayerInteractEntityEvent event) {
-        if (event.getPlayer().getInventory().getItemInMainHand() != null && getCustomData(event.getPlayer().getInventory().getItemInMainHand().getItemMeta()).equals("eternal") || event.getPlayer().getInventory().getItemInOffHand() != null && getCustomData(event.getPlayer().getInventory().getItemInOffHand().getItemMeta()).equals("eternal")) {
-            event.setCancelled(true);
-        }
-    }
-
     @Override
     public String getName() {
         return "Eternal Cookie";
@@ -69,5 +40,40 @@ public class EternalCookie extends EternalFood {
         item[0].setType(Material.COOKIE);
         return item;
         
+    }
+
+    @EventHandler
+    public void replenishFood(PlayerItemConsumeEvent event) {
+        if (getCustomData(event.getItem().getItemMeta()).equals("eternal")) {
+            if (event.getItem().getType().equals(Material.MILK_BUCKET)) {
+                Main.plugin.getServer().getScheduler().runTaskLater(Main.plugin, () -> {
+                    if (event.getPlayer().getInventory().removeItem(new ItemStack(Material.BUCKET)).isEmpty()) {
+                        event.getPlayer().getInventory().addItem(event.getItem());
+                    }
+                }, 1);
+            } else if (event.getItem().getType().equals(Material.SUSPICIOUS_STEW)) {
+                Main.plugin.getServer().getScheduler().runTaskLater(Main.plugin, () -> {
+                    if (event.getPlayer().getInventory().removeItem(new ItemStack(Material.BOWL)).isEmpty()) {
+                        event.getPlayer().getInventory().addItem(event.getItem());
+                    }
+                }, 1);
+            } else {
+                event.getPlayer().getInventory().addItem(event.getItem());
+            }
+        }
+    }
+
+    @EventHandler
+    public void dontCraftEvent(CraftItemEvent event) {
+        if (Arrays.stream(event.getInventory().getContents()).anyMatch(item -> getCustomData(item.getItemMeta()).contains("eternal"))) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void dontFeedEvent(PlayerInteractEntityEvent event) {
+        if (event.getPlayer().getInventory().getItemInMainHand() != null && getCustomData(event.getPlayer().getInventory().getItemInMainHand().getItemMeta()).equals("eternal") || event.getPlayer().getInventory().getItemInOffHand() != null && getCustomData(event.getPlayer().getInventory().getItemInOffHand().getItemMeta()).equals("eternal")) {
+            event.setCancelled(true);
+        }
     }
 }

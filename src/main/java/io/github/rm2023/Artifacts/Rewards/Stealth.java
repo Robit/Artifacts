@@ -44,7 +44,7 @@ public class Stealth extends Passive {
 
     @EventHandler
     public void shiftEvent(PlayerToggleSneakEvent event) {
-        if (!validateEvent(event)) {
+        if (!validatePlayerEvent(event)) {
             return;
         }
         if (event.isSneaking() && event.getPlayer().getPotionEffect(PotionEffectType.INVISIBILITY) == null) {

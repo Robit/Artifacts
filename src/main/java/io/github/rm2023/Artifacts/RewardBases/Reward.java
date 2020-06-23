@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -102,5 +103,9 @@ public abstract class Reward implements Listener, Comparable<Reward> {
     @Override
     public int compareTo(Reward reward) {
         return this.getTier().compareTo(reward.getTier()) == 0 ? this.getName().compareTo(reward.getName()) : this.getTier().compareTo(reward.getTier());
+    }
+
+    public boolean validateWorld(World world) {
+        return Main.plugin.enabledWorlds.contains(world.getName());
     }
 }
