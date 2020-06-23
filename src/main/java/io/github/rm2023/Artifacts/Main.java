@@ -25,6 +25,7 @@ public class Main extends JavaPlugin {
     public RewardManager rewardManager;
     public Map<String, Reward> rewardMap;
     public List<String> enabledWorlds;
+    public ArtifactItemManager artifactItemManager;
 
     @Override
     public void onLoad() {
@@ -67,6 +68,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         rewardManager = new RewardManager(rewardMap);
+        artifactItemManager = new ArtifactItemManager();
 
         getServer().getPluginManager().registerEvents(rewardManager, this);
 

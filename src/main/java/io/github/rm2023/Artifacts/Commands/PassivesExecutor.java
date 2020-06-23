@@ -10,7 +10,7 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import io.github.rm2023.Artifacts.Main;
-import io.github.rm2023.Artifacts.PassiveManagementGUI;
+import io.github.rm2023.Artifacts.GUI.PassiveManagementGUI;
 import io.github.rm2023.Artifacts.RewardBases.Passive;
 import net.md_5.bungee.api.ChatColor;
 
@@ -37,16 +37,16 @@ public class PassivesExecutor implements TabExecutor {
         }
         if (args.length == 2 && !args[0].equals("list")) {
             if(args[0].equals("enable")) {
-                return Main.plugin.rewardManager.listDisabledPassives((Player) sender).stream().map((passive) -> passive.getID()).filter((entry) -> entry.startsWith(args[1])).collect(Collectors.toList());
+                return Main.plugin.rewardManager.listDisabledPassives((Player) sender).stream().map((passive) -> passive.getID()).filter((entry) -> entry.startsWith(args[1].toUpperCase())).collect(Collectors.toList());
             }
             if(args[0].equals("disable")) {
-                return Main.plugin.rewardManager.listEnabledPassives((Player) sender).stream().map((passive) -> passive.getID()).filter((entry) -> entry.startsWith(args[1])).collect(Collectors.toList());
+                return Main.plugin.rewardManager.listEnabledPassives((Player) sender).stream().map((passive) -> passive.getID()).filter((entry) -> entry.startsWith(args[1].toUpperCase())).collect(Collectors.toList());
             }
             if (args[0].equals("toggle")) {
-                return Main.plugin.rewardManager.listPassives((Player) sender).stream().map((passive) -> passive.getID()).filter((entry) -> entry.startsWith(args[1])).collect(Collectors.toList());
+                return Main.plugin.rewardManager.listPassives((Player) sender).stream().map((passive) -> passive.getID()).filter((entry) -> entry.startsWith(args[1].toUpperCase())).collect(Collectors.toList());
             }
             if(args[0].equals("info")) {
-                return Main.plugin.rewardManager.listPassives((Player) sender).stream().map((passive) -> passive.getID()).filter((entry) -> entry.startsWith(args[1])).collect(Collectors.toList());
+                return Main.plugin.rewardManager.listPassives((Player) sender).stream().map((passive) -> passive.getID()).filter((entry) -> entry.startsWith(args[1].toUpperCase())).collect(Collectors.toList());
             }
         }
         return null;

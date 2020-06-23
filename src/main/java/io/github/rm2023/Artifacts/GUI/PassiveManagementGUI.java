@@ -1,4 +1,4 @@
-package io.github.rm2023.Artifacts;
+package io.github.rm2023.Artifacts.GUI;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,6 +15,7 @@ import de.themoep.inventorygui.GuiElementGroup;
 import de.themoep.inventorygui.GuiPageElement;
 import de.themoep.inventorygui.GuiPageElement.PageAction;
 import de.themoep.inventorygui.InventoryGui;
+import io.github.rm2023.Artifacts.Main;
 import io.github.rm2023.Artifacts.RewardBases.Passive;
 
 public class PassiveManagementGUI {
