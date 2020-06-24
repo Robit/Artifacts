@@ -56,7 +56,7 @@ public abstract class Reward implements Listener, Comparable<Reward> {
 
     public void enable() {
         Main.plugin.getServer().getPluginManager().registerEvents(this, Main.plugin);
-        Main.plugin.getServer().getPluginManager().addPermission(new Permission("artifacts.rewards." + getID(), "Allows getting the reward" + getID() + " from an artfact roll."));
+        Main.plugin.getServer().getPluginManager().addPermission(new Permission("artifacts.rewards." + getID().toLowerCase(), "Allows getting the reward" + getID() + " from an artfact roll."));
     }
 
     public abstract String getName();
@@ -76,7 +76,7 @@ public abstract class Reward implements Listener, Comparable<Reward> {
     public GuiElement getRepresentation(boolean enabled) {
         ItemStack itemRepresentation = new ItemStack(getRepresentationStack());
         ItemMeta itemRepresentationMeta = itemRepresentation.getItemMeta();
-        itemRepresentationMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS);
+        itemRepresentationMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_ATTRIBUTES);
         itemRepresentation.setItemMeta(itemRepresentationMeta);
         if (enabled) {
             itemRepresentation.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
@@ -84,7 +84,9 @@ public abstract class Reward implements Listener, Comparable<Reward> {
         List<String> description = new ArrayList<String>();
         description.add(getName());
         description.add(getTier().color() + "" + ChatColor.BOLD + getTier().toString());
-        description.add(ChatColor.LIGHT_PURPLE + getDescription());
+        for (String descString : getDescription().split("(?<=\\G.{32,}\\s)")) {
+            description.add(ChatColor.LIGHT_PURPLE + descString);
+        }
         description.add(ChatColor.WHITE + "Click to " + (enabled ? "enable" : "disable") + ".");
         return new StaticGuiElement('r', itemRepresentation, description.toArray(new String[description.size()]));
     }

@@ -71,6 +71,7 @@ public class Main extends JavaPlugin {
         artifactItemManager = new ArtifactItemManager();
 
         getServer().getPluginManager().registerEvents(rewardManager, this);
+        getServer().getPluginManager().registerEvents(artifactItemManager, this);
 
         getCommand("passives").setExecutor(new PassivesExecutor());
         getCommand("artifactAdmin").setExecutor(new ArtifactAdminExecutor());

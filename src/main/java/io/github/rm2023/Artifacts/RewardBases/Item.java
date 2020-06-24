@@ -9,6 +9,7 @@ public abstract class Item extends Reward {
 
     @Override
     public void giveReward(Player p) {
+        super.giveReward(p);
         HashMap<Integer, ItemStack> failedItems = p.getInventory().addItem(getItem());
         for (ItemStack failedItem : failedItems.values()) {
             p.getLocation().getWorld().dropItemNaturally(p.getLocation(), failedItem);

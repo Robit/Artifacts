@@ -1,5 +1,9 @@
 package io.github.rm2023.Artifacts;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -8,6 +12,8 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 public class Utils {
+    static Random rng = new Random();
+
     public static void placeBlockSafely(Material type, Location location, Player player) {
         if (!location.getBlock().isEmpty()) {
             return;
@@ -17,5 +23,20 @@ public class Utils {
         if (!event.isCancelled()) {
             location.getBlock().setType(type);
         }
+    }
+
+    public static <T> T weightedRandomValue(List<Map.Entry<T, Double>> randomSet) {
+        double total = 0;
+        for (Map.Entry<T, Double> entry : randomSet) {
+            entry.setValue(entry.getValue() + total);
+            total = entry.getValue();
+        }
+        double random = rng.nextDouble() * total;
+        for (Map.Entry<T, Double> entry : randomSet) {
+            if (entry.getValue() > random) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 }
