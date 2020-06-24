@@ -5,29 +5,26 @@ import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
-
-import com.destroystokyo.paper.event.entity.EntityKnockbackByEntityEvent;
 
 import io.github.rm2023.Artifacts.Main;
 import io.github.rm2023.Artifacts.RewardBases.Passive;
 
-public class SoftestGold extends Passive {
+public class LightestFeet extends Passive {
 
     @Override
     public String getName() {
-        return "Softest Gold";
+        return "Lightest Feet";
     }
 
     @Override
     public String getDescription() {
-        return "Absorbs 75% of the knockback you take. Incompatible with soft/softer gold.";
+        return "Increases your speed by 20%. Incompatible with light/lighter feet.";
     }
 
     @Override
     public ItemStack getRepresentationStack() {
-        return new ItemStack(Material.GOLD_BLOCK);
+        return new ItemStack(Material.RABBIT_FOOT, 3);
     }
 
     @Override
@@ -44,16 +41,22 @@ public class SoftestGold extends Passive {
     public List<Passive> getIncompatiblePassives() {
         return new ArrayList<Passive>() {
             {
-                add((Passive) Main.plugin.rewardMap.get("SOFT_GOLD"));
-                add((Passive) Main.plugin.rewardMap.get("SOFTER_GOLD"));
+                add((Passive) Main.plugin.rewardMap.get("LIGHT_FEET"));
+                add((Passive) Main.plugin.rewardMap.get("LIGHTER_FEET"));
             }
         };
     }
 
-    @EventHandler(ignoreCancelled = true)
-    public void onKb(EntityKnockbackByEntityEvent event) {
-        if (event.getEntity() instanceof Player && validate((Player) event.getEntity())) {
-            event.getAcceleration().multiply(0.25);
-        }
+    @Override
+    public void enableFor(Player p) {
+        super.enableFor(p);
+        p.setWalkSpeed(p.getWalkSpeed() * 6 / 5);
+    }
+
+    @Override
+    public void disableFor(Player p) {
+        super.disableFor(p);
+        p.setWalkSpeed(p.getWalkSpeed() * 5 / 6);
     }
 }
+

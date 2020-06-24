@@ -4,30 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Arrow;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
-
-import com.destroystokyo.paper.event.entity.EntityKnockbackByEntityEvent;
 
 import io.github.rm2023.Artifacts.Main;
 import io.github.rm2023.Artifacts.RewardBases.Passive;
 
-public class SoftestGold extends Passive {
+public class OverclockedArrows extends Passive {
 
     @Override
     public String getName() {
-        return "Softest Gold";
+        return "Overclocked Arrows";
     }
 
     @Override
     public String getDescription() {
-        return "Absorbs 75% of the knockback you take. Incompatible with soft/softer gold.";
+        return "Arrows fired have 1.25x speed. Incompatible with no-fall arrows.";
     }
 
     @Override
     public ItemStack getRepresentationStack() {
-        return new ItemStack(Material.GOLD_BLOCK);
+        ItemStack item = new ItemStack(Material.CLOCK);
+        return item;
     }
 
     @Override
@@ -44,16 +44,15 @@ public class SoftestGold extends Passive {
     public List<Passive> getIncompatiblePassives() {
         return new ArrayList<Passive>() {
             {
-                add((Passive) Main.plugin.rewardMap.get("SOFT_GOLD"));
-                add((Passive) Main.plugin.rewardMap.get("SOFTER_GOLD"));
+                add((Passive) Main.plugin.rewardMap.get("NO_FALL_ARROWS"));
             }
         };
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onKb(EntityKnockbackByEntityEvent event) {
-        if (event.getEntity() instanceof Player && validate((Player) event.getEntity())) {
-            event.getAcceleration().multiply(0.25);
+    public void OverclockedArrowShot(EntityShootBowEvent event) {
+        if (validateWorld(event.getEntity().getWorld()) && enabledPlayers.contains(event.getEntity()) && event.getProjectile() instanceof Arrow) {
+            event.getProjectile().setVelocity(event.getProjectile().getVelocity().multiply(1.25));
         }
     }
 }

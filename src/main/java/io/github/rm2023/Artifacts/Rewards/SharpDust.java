@@ -45,7 +45,7 @@ public class SharpDust extends Item {
         return 1;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onUse(PlayerInteractEvent event) {
         if (validateWorld(event.getPlayer().getWorld()) && event.getItem() != null && getCustomData(event.getItem().getItemMeta()).contains(getID())) {
             ItemStack item = event.getItem().clone();

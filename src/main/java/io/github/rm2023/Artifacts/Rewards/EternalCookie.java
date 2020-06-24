@@ -42,7 +42,7 @@ public class EternalCookie extends EternalFood {
         
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void replenishFood(PlayerItemConsumeEvent event) {
         if (getCustomData(event.getItem().getItemMeta()).equals("eternal")) {
             if (event.getItem().getType().equals(Material.MILK_BUCKET)) {
@@ -63,14 +63,14 @@ public class EternalCookie extends EternalFood {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void dontCraftEvent(CraftItemEvent event) {
         if (Arrays.stream(event.getInventory().getContents()).anyMatch(item -> getCustomData(item.getItemMeta()).contains("eternal"))) {
             event.setCancelled(true);
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void dontFeedEvent(PlayerInteractEntityEvent event) {
         if (event.getPlayer().getInventory().getItemInMainHand() != null && getCustomData(event.getPlayer().getInventory().getItemInMainHand().getItemMeta()).equals("eternal") || event.getPlayer().getInventory().getItemInOffHand() != null && getCustomData(event.getPlayer().getInventory().getItemInOffHand().getItemMeta()).equals("eternal")) {
             event.setCancelled(true);

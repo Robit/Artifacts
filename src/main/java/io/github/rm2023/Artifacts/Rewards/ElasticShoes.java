@@ -4,35 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 
-import com.destroystokyo.paper.event.entity.EntityKnockbackByEntityEvent;
+import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 
 import io.github.rm2023.Artifacts.Main;
 import io.github.rm2023.Artifacts.RewardBases.Passive;
 
-public class SoftestGold extends Passive {
+public class ElasticShoes extends Passive {
 
     @Override
     public String getName() {
-        return "Softest Gold";
+        return "Elastic Shoes";
     }
 
     @Override
     public String getDescription() {
-        return "Absorbs 75% of the knockback you take. Incompatible with soft/softer gold.";
+        return "Jump up to 1.5 blocks into the air instead of 1.25. Incompatible with springloaded shoes.";
     }
 
     @Override
     public ItemStack getRepresentationStack() {
-        return new ItemStack(Material.GOLD_BLOCK);
+        return new ItemStack(Material.LEATHER_BOOTS);
     }
 
     @Override
     public Tier getTier() {
-        return Tier.LEGENDARY;
+        return Tier.RARE;
     }
 
     @Override
@@ -44,16 +43,16 @@ public class SoftestGold extends Passive {
     public List<Passive> getIncompatiblePassives() {
         return new ArrayList<Passive>() {
             {
-                add((Passive) Main.plugin.rewardMap.get("SOFT_GOLD"));
-                add((Passive) Main.plugin.rewardMap.get("SOFTER_GOLD"));
+                add((Passive) Main.plugin.rewardMap.get("SPRINGLOADED_SHOES"));
             }
         };
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onKb(EntityKnockbackByEntityEvent event) {
-        if (event.getEntity() instanceof Player && validate((Player) event.getEntity())) {
-            event.getAcceleration().multiply(0.25);
+    public void ElasticJumpEvent(PlayerJumpEvent event) {
+        if (validatePlayerEvent(event)) {
+            event.getPlayer().setVelocity(event.getPlayer().getVelocity().setY(0.5));
         }
     }
 }
+

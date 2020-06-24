@@ -46,7 +46,7 @@ public class ThornyTalisman extends Item {
         return 1;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onUse(PlayerInteractEvent event) {
         if (validateWorld(event.getPlayer().getWorld()) && event.getItem() != null && getCustomData(event.getItem().getItemMeta()).contains(getID())) {
             ItemStack item = event.getItem().clone();
@@ -66,7 +66,7 @@ public class ThornyTalisman extends Item {
             Main.plugin.getServer().getScheduler().scheduleSyncDelayedTask(Main.plugin, () -> EntityDamageByEntityEvent.getHandlerList().unregister(this), 200);
         }
 
-        @EventHandler
+        @EventHandler(ignoreCancelled = true)
         public void reflectDamageEvent(EntityDamageByEntityEvent event) {
             if (event.getEntity().equals(player) && event.getDamager() instanceof Damageable) {
                 ((Damageable) event.getDamager()).damage(event.getDamage(), player);

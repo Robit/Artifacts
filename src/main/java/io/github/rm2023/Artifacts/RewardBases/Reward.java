@@ -87,7 +87,7 @@ public abstract class Reward implements Listener, Comparable<Reward> {
         for (String descString : getDescription().split("(?<=\\G.{32,}\\s)")) {
             description.add(ChatColor.LIGHT_PURPLE + descString);
         }
-        description.add(ChatColor.WHITE + "Click to " + (enabled ? "enable" : "disable") + ".");
+        description.add(ChatColor.WHITE + "Click to " + (enabled ? "disable" : "enable") + ".");
         return new StaticGuiElement('r', itemRepresentation, description.toArray(new String[description.size()]));
     }
 

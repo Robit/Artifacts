@@ -47,9 +47,9 @@ public class ZombiePact extends Item {
         return 1;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onUse(PlayerInteractEvent event) {
-        if (validateWorld(event.getPlayer().getWorld()) && event.getItem() != null && event.getClickedBlock() != null && getCustomData(event.getItem().getItemMeta()).contains(getID())) {
+        if (validateWorld(event.getPlayer().getWorld()) && event.getItem() != null && event.getClickedBlock() != null && getCustomData(event.getItem().getItemMeta()).equals(getID())) {
             ItemStack item = event.getItem().clone();
             item.setAmount(1);
             event.getPlayer().getInventory().removeItem(item);
@@ -69,7 +69,7 @@ public class ZombiePact extends Item {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void dontTargetFriendlyEvent(EntityTargetLivingEntityEvent event) {
         if (event.getTarget() instanceof Player && !getCustomData(event.getEntity()).isEmpty() && UUID.fromString(getCustomData(event.getEntity())).equals(((Player) event.getTarget()).getUniqueId())) {
             event.setCancelled(true);

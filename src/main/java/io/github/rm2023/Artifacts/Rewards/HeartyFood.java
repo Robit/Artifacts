@@ -42,7 +42,7 @@ public class HeartyFood extends Item {
         
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void fillHunger(PlayerItemConsumeEvent event) {
         if (getCustomData(event.getItem().getItemMeta()).equals(getID())) {
             event.getPlayer().setFoodLevel(20);

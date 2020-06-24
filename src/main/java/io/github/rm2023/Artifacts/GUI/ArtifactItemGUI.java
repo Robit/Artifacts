@@ -33,7 +33,7 @@ public class ArtifactItemGUI {
         Collections.sort(rewardList);
         rewardList.forEach((reward) -> {
             DynamicGuiElement rewardElement = new DynamicGuiElement('d', () -> {
-                GuiElement element = reward.getRepresentation(true);
+                GuiElement element = reward.getRepresentation(false);
                 element.setAction(new ElementToggleAction(reward, properties, this));
                 return element;
             });

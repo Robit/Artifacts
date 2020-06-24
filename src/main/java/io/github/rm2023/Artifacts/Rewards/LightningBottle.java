@@ -45,14 +45,14 @@ public class LightningBottle extends Item {
         return 1;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void lightningBottleThrowEvent(ProjectileLaunchEvent event) {
         if (validateWorld(event.getEntity().getLocation().getWorld()) && event.getEntity() instanceof ThrownPotion && getCustomData(((ThrownPotion) event.getEntity()).getItem().getItemMeta()).contains(getID())) {
             event.getEntity().getPersistentDataContainer().set(KEY, PersistentDataType.STRING, getID());
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void lightningBottleHitEvent(PotionSplashEvent event) {
         if (validateWorld(event.getEntity().getLocation().getWorld()) && event.getEntity() instanceof ThrownPotion && getCustomData((ThrownPotion) event.getEntity()).contains(getID())) {
             event.getAffectedEntities().forEach((entity) -> entity.getWorld().strikeLightning(entity.getLocation()));

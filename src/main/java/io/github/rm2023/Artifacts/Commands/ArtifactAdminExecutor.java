@@ -122,6 +122,7 @@ public class ArtifactAdminExecutor implements TabExecutor {
         }
         if (args.length == 0) {
             sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Options: give, remove, enable, disable, list, reload, make");
+            return false;
         }
         switch(args[0]) {
         case "give":

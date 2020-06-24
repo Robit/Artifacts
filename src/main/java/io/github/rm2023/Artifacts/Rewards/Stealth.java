@@ -42,7 +42,7 @@ public class Stealth extends Passive {
         return 1;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void shiftEvent(PlayerToggleSneakEvent event) {
         if (!validatePlayerEvent(event)) {
             return;

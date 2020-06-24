@@ -56,7 +56,7 @@ public class ColormaticLeatherArmor extends EternalMaterial {
         return result;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onHit(EntityDamageEvent event) {
         if(validateWorld(event.getEntity().getWorld()) && event.getEntity() instanceof LivingEntity) {
             EntityEquipment equipment = ((LivingEntity) event.getEntity()).getEquipment();

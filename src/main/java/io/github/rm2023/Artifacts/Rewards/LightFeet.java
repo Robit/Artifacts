@@ -5,29 +5,26 @@ import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
-
-import com.destroystokyo.paper.event.entity.EntityKnockbackByEntityEvent;
 
 import io.github.rm2023.Artifacts.Main;
 import io.github.rm2023.Artifacts.RewardBases.Passive;
 
-public class SoftGold extends Passive {
+public class LightFeet extends Passive {
 
     @Override
     public String getName() {
-        return "Soft Gold";
+        return "Light Feet";
     }
 
     @Override
     public String getDescription() {
-        return "Absorbs 25% of the knockback you take. Incompatible with softer/softest gold.";
+        return "Increases your speed by 10%. Incompatible with lighter/lightest feet.";
     }
 
     @Override
     public ItemStack getRepresentationStack() {
-        return new ItemStack(Material.GOLD_NUGGET);
+        return new ItemStack(Material.RABBIT_FOOT, 1);
     }
 
     @Override
@@ -44,16 +41,22 @@ public class SoftGold extends Passive {
     public List<Passive> getIncompatiblePassives() {
         return new ArrayList<Passive>() {
             {
-                add((Passive) Main.plugin.rewardMap.get("SOFTER_GOLD"));
-                add((Passive) Main.plugin.rewardMap.get("SOFTEST_GOLD"));
+                add((Passive) Main.plugin.rewardMap.get("LIGHTER_FEET"));
+                add((Passive) Main.plugin.rewardMap.get("LIGHTEST_FEET"));
             }
         };
     }
 
-    @EventHandler(ignoreCancelled = true)
-    public void onKb(EntityKnockbackByEntityEvent event) {
-        if (event.getEntity() instanceof Player && validate((Player) event.getEntity())) {
-            event.getAcceleration().multiply(0.75);
-        }
+    @Override
+    public void enableFor(Player p) {
+        super.enableFor(p);
+        p.setWalkSpeed(p.getWalkSpeed() * 11 / 10);
+    }
+
+    @Override
+    public void disableFor(Player p) {
+        super.disableFor(p);
+        p.setWalkSpeed(p.getWalkSpeed() * 10 / 11);
     }
 }
+

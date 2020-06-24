@@ -48,7 +48,7 @@ public class PoseidonsTrident extends EternalMaterial {
         return item;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void tridentDamageEvent(EntityDamageByEntityEvent event) {
         if (validateWorld(event.getEntity().getLocation().getWorld()) && event.getDamager() instanceof Player && getCustomData(((Player) event.getDamager()).getInventory().getItemInMainHand().getItemMeta()).equals(getID()) && !event.getCause().equals(DamageCause.VOID)) {
             EntityDamageByEntityEvent voidEvent = new EntityDamageByEntityEvent(event.getDamager(), event.getEntity(), DamageCause.VOID, 2);
@@ -59,14 +59,14 @@ public class PoseidonsTrident extends EternalMaterial {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void tridentThrowEvent(ProjectileLaunchEvent event) {
         if (validateWorld(event.getEntity().getLocation().getWorld()) && event.getEntity() instanceof Trident && getCustomData(((Trident) event.getEntity()).getItemStack().getItemMeta()).contains(getID())) {
             event.getEntity().getPersistentDataContainer().set(KEY, PersistentDataType.STRING, getID());
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void tridentHitEvent(ProjectileHitEvent event) {
         if (validateWorld(event.getEntity().getWorld()) && event.getHitEntity() instanceof LivingEntity && getCustomData(event.getEntity()).contains(getID())) {
             EntityDamageByEntityEvent voidEvent = new EntityDamageByEntityEvent(event.getEntity(), event.getHitEntity(), DamageCause.VOID, 2);

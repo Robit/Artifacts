@@ -47,7 +47,7 @@ public class ExplosiveWeb extends Item {
         return 1;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onUse(PlayerInteractEvent event) {
         if (validateWorld(event.getPlayer().getWorld()) && event.getAction().equals(Action.RIGHT_CLICK_BLOCK) && event.getClickedBlock() != null && event.getItem() != null && getCustomData(event.getItem().getItemMeta()).contains(getID())) {
             ItemStack item = event.getItem().clone();

@@ -64,7 +64,7 @@ public class Panacea extends Item {
         return 1;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void potionDrinkEvent(PlayerItemConsumeEvent event) {
         if (validateWorld(event.getPlayer().getWorld()) && getCustomData(event.getItem().getItemMeta()).contains(getID())) {
             event.getPlayer().getActivePotionEffects().stream().filter(effect -> validEffects.contains(effect.getType())).forEach(effect -> event.getPlayer().removePotionEffect(effect.getType()));

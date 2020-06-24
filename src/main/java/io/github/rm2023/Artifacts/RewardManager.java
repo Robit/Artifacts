@@ -148,19 +148,21 @@ public class RewardManager implements Listener {
         Main.plugin.getServer().getOnlinePlayers().forEach((player) -> listEnabledPassives(player).forEach((passive) -> passive.enableFor(player)));
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void loadPlayerOnLogin(PlayerLoginEvent event) {
         DataManager.getPlayerData(event.getPlayer());
         Main.plugin.getServer().getScheduler().scheduleSyncDelayedTask(Main.plugin, () -> listEnabledPassives(event.getPlayer()).forEach((passive) -> passive.enableFor(event.getPlayer())), 10);
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void unloadPlayerOnLogout(PlayerQuitEvent event) {
         listEnabledPassives(event.getPlayer()).forEach((passive) -> passive.disableFor(event.getPlayer()));
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void removePassivesOnDeath(PlayerDeathEvent event) {
-        listPassives(event.getEntity()).forEach((passive) -> removePassive(event.getEntity(), passive, false));
+        if (Main.plugin.enabledWorlds.contains(event.getEntity().getWorld().getName())) {
+            listPassives(event.getEntity()).forEach((passive) -> removePassive(event.getEntity(), passive, false));
+        }
     }
 }
