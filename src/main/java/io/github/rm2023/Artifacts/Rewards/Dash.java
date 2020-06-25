@@ -40,7 +40,7 @@ public class Dash extends Passive {
 
     @Override
     public String getDescription() {
-        return "Shift/left click with an empty hand to us 2 bars of hunger and give yourself a burst of velocity in that direction. Can't be used under 5 bars of hunger.";
+        return "Shift/left click with an empty hand to use 3 bars of hunger and give yourself a burst of velocity in that direction. Can't be used under 4 bars of hunger.";
     }
 
     @Override
@@ -55,9 +55,9 @@ public class Dash extends Passive {
 
     @EventHandler(ignoreCancelled = false)
     public void DashEvent(PlayerInteractEvent event) {
-        if (validatePlayerEvent(event) && event.getPlayer().getInventory().getItemInMainHand().getItemMeta() == null && event.getPlayer().isSneaking() && event.getAction().equals(Action.LEFT_CLICK_AIR) && event.getPlayer().getFoodLevel() >= 10) {
-            event.getPlayer().setFoodLevel(event.getPlayer().getFoodLevel() - 4);
-            event.getPlayer().setVelocity(event.getPlayer().getLocation().getDirection());
+        if (validatePlayerEvent(event) && event.getPlayer().getInventory().getItemInMainHand().getItemMeta() == null && event.getPlayer().isSneaking() && event.getAction().equals(Action.LEFT_CLICK_AIR) && event.getPlayer().getFoodLevel() >= 8) {
+            event.getPlayer().setFoodLevel(event.getPlayer().getFoodLevel() - 6);
+            event.getPlayer().setVelocity(event.getPlayer().getLocation().getDirection().multiply(1.5));
         }
     }
 }

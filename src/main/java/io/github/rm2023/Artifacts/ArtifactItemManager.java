@@ -23,6 +23,8 @@ import io.github.rm2023.Artifacts.GUI.ArtifactItemGUI;
 import io.github.rm2023.Artifacts.RewardBases.Reward;
 
 public class ArtifactItemManager implements Listener {
+    public LinkedList<Player> playersRedeemingArtifact = new LinkedList<Player>();
+
     public static final NamespacedKey ROLLS_KEY = new NamespacedKey(Main.plugin, "ROLLS");
     public static final NamespacedKey COMMON_CHANCE_KEY = new NamespacedKey(Main.plugin, "COMMON");
     public static final NamespacedKey UNCOMMON_CHANCE_KEY = new NamespacedKey(Main.plugin, "UNCOMMON");
@@ -102,7 +104,8 @@ public class ArtifactItemManager implements Listener {
 
     @EventHandler
     public void artifactRedeemEvent(PlayerInteractEvent event) {
-        if (Main.plugin.enabledWorlds.contains(event.getPlayer().getWorld().getName()) && event.getItem() != null && event.getItem().getItemMeta().getPersistentDataContainer().getOrDefault(ROLLS_KEY, PersistentDataType.INTEGER, 0) > 0) {
+        if (Main.plugin.enabledWorlds.contains(event.getPlayer().getWorld().getName()) && event.getItem() != null && event.getItem().getItemMeta().getPersistentDataContainer().getOrDefault(ROLLS_KEY, PersistentDataType.INTEGER, 0) > 0 && !playersRedeemingArtifact.contains(event.getPlayer())) {
+            playersRedeemingArtifact.add(event.getPlayer());
             if(event.getItem().getItemMeta().getPersistentDataContainer().getOrDefault(ROLLS_KEY, PersistentDataType.INTEGER, 0) == 1) {
                 event.getPlayer().sendMessage(Main.plugin.rewardManager.giveReward(event.getPlayer(), roll(event.getItem(), event.getPlayer()).get(0), false, event.getItem().getItemMeta().getPersistentDataContainer().getOrDefault(PROPERTIES_KEY, PersistentDataType.STRING, "").split(",")));
             } else {
@@ -113,6 +116,7 @@ public class ArtifactItemManager implements Listener {
             item.setAmount(1);
             event.getPlayer().getInventory().removeItem(item);
             event.setCancelled(true);
+            Main.plugin.getServer().getScheduler().scheduleSyncDelayedTask(Main.plugin, () -> playersRedeemingArtifact.remove(event.getPlayer()), 20);
         }
     }
 }
