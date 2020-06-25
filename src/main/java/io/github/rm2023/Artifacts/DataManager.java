@@ -29,9 +29,6 @@ public class DataManager {
                 this.file.getParentFile().mkdirs();
                 this.file.createNewFile();
                 data.load(this.file);
-                if (!data.isConfigurationSection("passives")) {
-                    data.createSection("passives");
-                }
             } catch (IOException | InvalidConfigurationException e) {
                 e.printStackTrace();
             }

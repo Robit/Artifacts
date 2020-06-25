@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -50,13 +51,13 @@ public class LightFeet extends Passive {
     @Override
     public void enableFor(Player p) {
         super.enableFor(p);
-        p.setWalkSpeed(p.getWalkSpeed() * 11 / 10);
+        p.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(p.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getDefaultValue() * 1.1);
     }
 
     @Override
     public void disableFor(Player p) {
         super.disableFor(p);
-        p.setWalkSpeed(p.getWalkSpeed() * 10 / 11);
+        p.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(p.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getDefaultValue());
     }
 }
 

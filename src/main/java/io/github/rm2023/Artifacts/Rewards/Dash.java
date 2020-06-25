@@ -56,7 +56,6 @@ public class Dash extends Passive {
     @EventHandler(ignoreCancelled = false)
     public void DashEvent(PlayerInteractEvent event) {
         if (validatePlayerEvent(event) && event.getPlayer().getInventory().getItemInMainHand().getItemMeta() == null && event.getPlayer().isSneaking() && event.getAction().equals(Action.LEFT_CLICK_AIR) && event.getPlayer().getFoodLevel() >= 10) {
-
             event.getPlayer().setFoodLevel(event.getPlayer().getFoodLevel() - 4);
             event.getPlayer().setVelocity(event.getPlayer().getLocation().getDirection());
         }

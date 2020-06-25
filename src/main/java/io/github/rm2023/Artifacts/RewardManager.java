@@ -123,10 +123,16 @@ public class RewardManager implements Listener {
     }
 
     private ConfigurationSection getPassiveSection(Player player) {
+        if (!DataManager.getPlayerData(player).getData().isConfigurationSection("passives")) {
+            DataManager.getPlayerData(player).getData().createSection("passives");
+        }
         return DataManager.getPlayerData(player).getData().getConfigurationSection("passives");
     }
 
     private ConfigurationSection getPassiveSection(Player player, Passive passive) {
+        if (!DataManager.getPlayerData(player).getData().isConfigurationSection("passives")) {
+            DataManager.getPlayerData(player).getData().createSection("passives");
+        }
         return DataManager.getPlayerData(player).getData().getConfigurationSection("passives").getConfigurationSection(passive.getID());
     }
 
