@@ -35,8 +35,8 @@ public class ThickSkin extends Passive {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void ElasticJumpEvent(EntityDamageByBlockEvent event) {
-        if (validateWorld(event.getEntity().getWorld()) && enabledPlayers.contains(event.getEntity()) && event.getDamager().getType().equals(Material.CACTUS)) {
+    public void ThickSkinEvent(EntityDamageByBlockEvent event) {
+        if (validateWorld(event.getEntity().getWorld()) && enabledPlayers.contains(event.getEntity()) && event.getDamager().getType() != null && event.getDamager().getType().equals(Material.CACTUS)) {
             event.setCancelled(true);
         }
     }

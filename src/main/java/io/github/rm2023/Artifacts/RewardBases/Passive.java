@@ -26,6 +26,6 @@ public abstract class Passive extends Reward {
     }
 
     protected boolean validate(Player player) {
-        return enabledPlayers.contains(player);
+        return enabledPlayers.contains(player) && validateWorld(player.getWorld());
     }
 }

@@ -100,7 +100,7 @@ public class ArtifactItemManager implements Listener {
         return result;
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void artifactRedeemEvent(PlayerInteractEvent event) {
         if (Main.plugin.enabledWorlds.contains(event.getPlayer().getWorld().getName()) && event.getItem() != null && event.getItem().getItemMeta().getPersistentDataContainer().getOrDefault(ROLLS_KEY, PersistentDataType.INTEGER, 0) > 0) {
             if(event.getItem().getItemMeta().getPersistentDataContainer().getOrDefault(ROLLS_KEY, PersistentDataType.INTEGER, 0) == 1) {

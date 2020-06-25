@@ -26,7 +26,7 @@ public class ArtifactItemGUI {
     public String[][] guiSetup = { { "    r    " }, { "   r r   " }, { "  r r r  " }, { " r r r r " }, { "r r r r r" }, { " rrr rrr " }, { " rrrrrrr " }, { "rrrr rrrr" }, { "rrrrrrrrr" }, { "prrrrrrrn" } };
 
     public ArtifactItemGUI(List<Reward> rewardList, Player player, String[] properties) {
-        gui = new InventoryGui(Main.plugin, "Choose a reward!", guiSetup[(rewardList.size() > 9) ? 9 : rewardList.size() - 1], new GuiElement[0]);
+        gui = new InventoryGui(Main.plugin, "Choose a reward!", guiSetup[((rewardList.size() > 9) ? 10 : rewardList.size()) - 1], new GuiElement[0]);
         gui.addElement(new GuiPageElement('p', new ItemStack(Material.ARROW), PageAction.NEXT, "Go to previous page (%prevpage%)"));
         gui.addElement(new GuiPageElement('n', new ItemStack(Material.ARROW), PageAction.NEXT, "Go to next page (%nextpage%)"));
         GuiElementGroup rewardGroup = new GuiElementGroup('r');
