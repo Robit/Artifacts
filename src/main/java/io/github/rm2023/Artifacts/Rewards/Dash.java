@@ -1,5 +1,7 @@
 package io.github.rm2023.Artifacts.Rewards;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Material;
@@ -40,7 +42,7 @@ public class Dash extends Passive {
 
     @Override
     public String getDescription() {
-        return "Shift/left click with an empty hand to use 3 bars of hunger and give yourself a burst of velocity in that direction. Can't be used under 4 bars of hunger.";
+        return "Shift/left click with an empty hand to use 3 bars of hunger and give yourself a burst of velocity in that direction. Can't be used under 4 bars of hunger. Incompatible with Ender Hand";
     }
 
     @Override
@@ -51,6 +53,15 @@ public class Dash extends Passive {
     @Override
     public double getRarity() {
         return 1;
+    }
+
+    @Override
+    public List<Passive> getIncompatiblePassives() {
+        return new ArrayList<Passive>() {
+            {
+                add((Passive) Main.plugin.rewardMap.get("ENDER_HAND"));
+            }
+        };
     }
 
     @EventHandler(ignoreCancelled = false)
