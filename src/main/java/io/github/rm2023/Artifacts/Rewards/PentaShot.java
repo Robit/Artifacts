@@ -74,6 +74,7 @@ public class PentaShot extends Passive {
                     a.setPierceLevel(((Arrow) event.getProjectile()).getPierceLevel());
                     a.setBasePotionData(((Arrow) event.getProjectile()).getBasePotionData());
                     a.setShooter(((Arrow) event.getProjectile()).getShooter());
+                    a.setFireTicks(((Arrow) event.getProjectile()).getFireTicks());
                     (((Arrow) event.getProjectile()).getCustomEffects()).forEach((e) -> a.addCustomEffect(e, true));
                     String customData = getCustomData(event.getProjectile());
                     if (customData.contains("EXPLOSIVE_ARROWS") && !((Player) event.getEntity()).getInventory().removeItem(new ItemStack(Material.GUNPOWDER, 5)).isEmpty()) {
