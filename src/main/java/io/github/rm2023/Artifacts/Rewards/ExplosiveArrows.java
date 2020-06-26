@@ -9,6 +9,7 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
+import io.github.rm2023.Artifacts.Utils;
 import io.github.rm2023.Artifacts.RewardBases.Passive;
 
 public class ExplosiveArrows extends Passive {
@@ -50,7 +51,7 @@ public class ExplosiveArrows extends Passive {
 
     @EventHandler(ignoreCancelled = true)
     public void ExplosiveArrowHit(ProjectileHitEvent event) {
-        if (getCustomData(event.getEntity()).contains(getID())) {
+        if (getCustomData(event.getEntity()).contains(getID()) && Utils.canPlaceBlockSafely(Material.AIR, event.getEntity().getLocation(), (Player) event.getEntity().getShooter())) {
             if (event.getHitEntity() != null) {
                 event.getHitEntity().getLocation().getWorld().createExplosion(event.getHitEntity().getLocation(), 4);
             } else {

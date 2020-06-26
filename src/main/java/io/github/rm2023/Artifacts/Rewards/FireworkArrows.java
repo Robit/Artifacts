@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import io.github.rm2023.Artifacts.Utils;
 import io.github.rm2023.Artifacts.RewardBases.Passive;
 
 public class FireworkArrows extends Passive {
@@ -56,7 +57,7 @@ public class FireworkArrows extends Passive {
 
     @EventHandler(ignoreCancelled = true)
     public void FireworkArrowHit(ProjectileHitEvent event) {
-        if (getCustomData(event.getEntity()).contains(getID())) {
+        if (getCustomData(event.getEntity()).contains(getID()) && Utils.canPlaceBlockSafely(Material.AIR, event.getEntity().getLocation(), (Player) event.getEntity().getShooter())) {
             Firework firework;
             if (event.getHitEntity() != null) {
                 firework = (Firework) event.getHitEntity().getLocation().getWorld().spawnEntity(event.getHitEntity().getLocation(), EntityType.FIREWORK);

@@ -18,11 +18,15 @@ public class Utils {
         if (!location.getBlock().isEmpty()) {
             return;
         }
-        BlockPlaceEvent event = new BlockPlaceEvent(location.getBlock(), location.getBlock().getState(), location.subtract(0, 0, 0).getBlock(), new ItemStack(type), player, true, EquipmentSlot.HAND);
-        Main.plugin.getServer().getPluginManager().callEvent(event);
-        if (!event.isCancelled()) {
+        if (canPlaceBlockSafely(type, location, player)) {
             location.getBlock().setType(type);
         }
+    }
+
+    public static boolean canPlaceBlockSafely(Material type, Location location, Player player) {
+        BlockPlaceEvent event = new BlockPlaceEvent(location.getBlock(), location.getBlock().getState(), location.subtract(0, 0, 0).getBlock(), new ItemStack(type), player, true, EquipmentSlot.HAND);
+        Main.plugin.getServer().getPluginManager().callEvent(event);
+        return !event.isCancelled();
     }
 
     public static <T> T weightedRandomValue(List<Map.Entry<T, Double>> randomSet) {
