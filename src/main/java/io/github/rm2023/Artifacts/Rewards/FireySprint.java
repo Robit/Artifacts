@@ -23,7 +23,7 @@ public class FireySprint extends Passive {
 
     @Override
     public ItemStack getRepresentationStack() {
-        ItemStack item = new ItemStack(Material.FIRE);
+        ItemStack item = new ItemStack(Material.BLAZE_POWDER);
         return item;
     }
 

@@ -46,13 +46,15 @@ public class Beheading extends Passive {
     @EventHandler(ignoreCancelled = true)
     public void BeheadingEvent(EntityDeathEvent event) {
         if (validateWorld(event.getEntity().getWorld()) && enabledPlayers.contains(((LivingEntity) event.getEntity()).getKiller())) {
-            if (event.getEntity() instanceof Player && rng.nextInt(2) == 0) {
-                ItemStack head = new ItemStack(Material.PLAYER_HEAD);
-                SkullMeta meta = (SkullMeta) head.getItemMeta();
-                meta.setOwningPlayer((Player) event.getEntity());
-                head.setItemMeta(meta);
-                event.getEntity().getLocation().getWorld().dropItemNaturally(event.getEntity().getLocation(), head);
-            } else if (rng.nextInt(1) == 0) {
+            if (event.getEntity() instanceof Player) {
+                if (rng.nextInt(2) == 0) {
+                    ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+                    SkullMeta meta = (SkullMeta) head.getItemMeta();
+                    meta.setOwningPlayer((Player) event.getEntity());
+                    head.setItemMeta(meta);
+                    event.getEntity().getLocation().getWorld().dropItemNaturally(event.getEntity().getLocation(), head);
+                }
+            } else if (rng.nextInt(1) == 20) {
                 ItemStack head = new ItemStack(Material.PLAYER_HEAD);
                 SkullMeta meta = (SkullMeta) head.getItemMeta();
                 meta.setOwningPlayer(Main.plugin.getServer().getOfflinePlayer("MHF_" + event.getEntity().getName()));
