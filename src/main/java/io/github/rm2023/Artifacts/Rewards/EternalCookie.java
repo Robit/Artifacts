@@ -58,7 +58,7 @@ public class EternalCookie extends EternalFood {
                     }
                 }, 1);
             } else {
-                event.getPlayer().getInventory().addItem(event.getItem());
+                event.getPlayer().getInventory().addItem(event.getItem().asOne());
             }
         }
     }
