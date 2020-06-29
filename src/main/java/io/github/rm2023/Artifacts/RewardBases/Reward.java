@@ -84,7 +84,7 @@ public abstract class Reward implements Listener, Comparable<Reward> {
         List<String> description = new ArrayList<String>();
         description.add(getName());
         description.add(getTier().color() + "" + ChatColor.BOLD + getTier().toString());
-        for (String descString : getDescription().split("(?<=\\G.{32,}\\s)")) {
+        for (String descString : getDescription().split("(?<=\\G.{20,}\\s)")) {
             description.add(ChatColor.LIGHT_PURPLE + descString);
         }
         description.add(ChatColor.WHITE + "Click to " + (enabled ? "disable" : "enable") + ".");
