@@ -105,7 +105,11 @@ public class ArtifactItemManager implements Listener {
 
     @EventHandler
     public void artifactRedeemEvent(PlayerInteractEvent event) {
-        if (Main.plugin.enabledWorlds.contains(event.getPlayer().getWorld().getName()) && (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) && event.getItem() != null && event.getItem().getItemMeta().getPersistentDataContainer().getOrDefault(ROLLS_KEY, PersistentDataType.INTEGER, 0) > 0 && !playersRedeemingArtifact.contains(event.getPlayer())) {
+        if ((event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) && event.getItem() != null && event.getItem().getItemMeta().getPersistentDataContainer().getOrDefault(ROLLS_KEY, PersistentDataType.INTEGER, 0) > 0) {
+            if ((!Main.plugin.enabledWorlds.contains(event.getPlayer().getWorld().getName())) || playersRedeemingArtifact.contains(event.getPlayer())) {
+                event.setCancelled(true);
+                return;
+            }
             playersRedeemingArtifact.add(event.getPlayer());
             if(event.getItem().getItemMeta().getPersistentDataContainer().getOrDefault(ROLLS_KEY, PersistentDataType.INTEGER, 0) == 1) {
                 event.getPlayer().sendMessage(Main.plugin.rewardManager.giveReward(event.getPlayer(), roll(event.getItem(), event.getPlayer()).get(0), false, event.getItem().getItemMeta().getPersistentDataContainer().getOrDefault(PROPERTIES_KEY, PersistentDataType.STRING, "").split(",")));
