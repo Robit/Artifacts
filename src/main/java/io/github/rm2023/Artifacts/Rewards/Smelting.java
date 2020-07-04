@@ -51,8 +51,6 @@ public class Smelting extends Passive {
                         list.add(recipe);
                     }
                 });
-                Main.plugin.getLogger().info(drop.toString());
-                Main.plugin.getLogger().info(Integer.toString(list.size()));
                 if(!list.isEmpty()) {
                     return list.get(0).getResult().add(drop.getAmount() - 1);
                 }
