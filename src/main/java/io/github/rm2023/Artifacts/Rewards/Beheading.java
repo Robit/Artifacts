@@ -57,7 +57,7 @@ public class Beheading extends Passive {
             } else if (rng.nextInt(20) == 0) {
                 ItemStack head = new ItemStack(Material.PLAYER_HEAD);
                 SkullMeta meta = (SkullMeta) head.getItemMeta();
-                meta.setOwningPlayer(Main.plugin.getServer().getOfflinePlayer("MHF_" + event.getEntity().getName()));
+                meta.setOwningPlayer(Main.plugin.getServer().getOfflinePlayer("MHF_" + event.getEntity().getType().getName()));
                 meta.setDisplayName(event.getEntity().getName() + "'s Head");
                 head.setItemMeta(meta);
                 event.getEntity().getLocation().getWorld().dropItemNaturally(event.getEntity().getLocation(), head);
