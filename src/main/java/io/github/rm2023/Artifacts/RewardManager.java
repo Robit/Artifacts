@@ -137,15 +137,15 @@ public class RewardManager implements Listener {
     }
 
     public List<Passive> listPassives(Player player) {
-        return getPassiveSection(player).getKeys(false).stream().map((key) -> (Passive) rewardMap.get(key)).collect(Collectors.toList());
+        return getPassiveSection(player).getKeys(false).stream().map((key) -> (Passive) rewardMap.getOrDefault(key, null)).filter(p -> p != null).collect(Collectors.toList());
     }
 
     public List<Passive> listEnabledPassives(Player player) {
-        return getPassiveSection(player).getKeys(false).stream().map((key) -> (Passive) rewardMap.get(key)).filter((p) -> isEnabled(p, player)).collect(Collectors.toList());
+        return getPassiveSection(player).getKeys(false).stream().map((key) -> (Passive) rewardMap.getOrDefault(key, null)).filter(p -> p != null).filter((p) -> isEnabled(p, player)).collect(Collectors.toList());
     }
 
     public List<Passive> listDisabledPassives(Player player) {
-        return getPassiveSection(player).getKeys(false).stream().map((key) -> (Passive) rewardMap.get(key)).filter((p) -> !isEnabled(p, player)).collect(Collectors.toList());
+        return getPassiveSection(player).getKeys(false).stream().map((key) -> (Passive) rewardMap.getOrDefault(key, null)).filter(p -> p != null).filter((p) -> !isEnabled(p, player)).collect(Collectors.toList());
     }
 
     public void reload() {

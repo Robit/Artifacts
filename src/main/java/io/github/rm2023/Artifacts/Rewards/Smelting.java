@@ -1,16 +1,10 @@
 package io.github.rm2023.Artifacts.Rewards;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
 
-import io.github.rm2023.Artifacts.Main;
 import io.github.rm2023.Artifacts.RewardBases.Passive;
 
 public class Smelting extends Passive {
@@ -41,8 +35,9 @@ public class Smelting extends Passive {
         return 1;
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = false)
     public void SmeltingEvent(BlockBreakEvent event) {
+        /*
         if (validateWorld(event.getBlock().getWorld()) && enabledPlayers.contains(event.getPlayer())) {
             event.getBlock().getDrops(event.getPlayer().getInventory().getItemInMainHand(), event.getPlayer()).stream().map(drop -> {
                 List<Recipe> list = new LinkedList<Recipe>();
@@ -58,5 +53,6 @@ public class Smelting extends Passive {
             }).forEach(drop -> event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), drop));
             event.setDropItems(false);
         }
+        */
     }
 }
