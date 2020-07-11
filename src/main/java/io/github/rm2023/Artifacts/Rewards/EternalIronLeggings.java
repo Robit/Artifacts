@@ -14,7 +14,7 @@ public class EternalIronLeggings extends EternalMaterial {
 
     @Override
     public String getDescription() {
-        return "Iron leggings that doesn't break.";
+        return "Iron leggings that don't break.";
     }
 
     @Override

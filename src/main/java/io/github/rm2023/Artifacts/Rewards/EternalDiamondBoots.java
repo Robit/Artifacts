@@ -14,7 +14,7 @@ public class EternalDiamondBoots extends EternalMaterial {
 
     @Override
     public String getDescription() {
-        return "Diamond boots that doesn't break.";
+        return "Diamond boots that don't break.";
     }
 
     @Override
