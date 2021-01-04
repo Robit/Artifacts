@@ -60,6 +60,8 @@ public class Main extends JavaPlugin {
         config.getStringList("disabledArtifacts").stream().forEach((disabledArtifact) -> {
             if (rewardMap.remove(disabledArtifact) == null) {
                 getLogger().severe("Unable to disable " + disabledArtifact + ". Reward not found.");
+            } else {
+                getLogger().info("Disabled " + disabledArtifact + ".");
             }
         });
         enabledWorlds = config.getStringList("enabledWorlds");

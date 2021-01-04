@@ -6,6 +6,7 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.rm2023.Artifacts.RewardBases.Passive;
+import io.github.rm2023.Artifacts.Main;
 
 public class MidasDiet extends Passive {
 
@@ -36,8 +37,10 @@ public class MidasDiet extends Passive {
 
     @EventHandler(ignoreCancelled = true)
     public void replenishGapple(PlayerItemConsumeEvent event) {
-        if (validatePlayerEvent(event) && event.getItem().getType().equals(Material.GOLDEN_APPLE) || event.getItem().getType().equals(Material.GOLDEN_CARROT)) {
-            event.getPlayer().getInventory().addItem(event.getItem().asOne());
+        if (validatePlayerEvent(event) && (event.getItem().getType().equals(Material.GOLDEN_APPLE) || event.getItem().getType().equals(Material.GOLDEN_CARROT))) {
+            Main.plugin.getServer().getScheduler().runTaskLater(Main.plugin, () -> {
+                event.getPlayer().getInventory().addItem(event.getItem().asOne());
+            }, 1);
         }
     }
 }

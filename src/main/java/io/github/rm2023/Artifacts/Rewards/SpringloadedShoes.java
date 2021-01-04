@@ -21,7 +21,7 @@ public class SpringloadedShoes extends Passive {
 
     @Override
     public String getDescription() {
-        return "Jump up to 2 blocks into the air instead of 1.25. Incompatible with springloaded shoes.";
+        return "Jump up to 2 blocks into the air instead of 1.25. Incompatible with elastic shoes.";
     }
 
     @Override
